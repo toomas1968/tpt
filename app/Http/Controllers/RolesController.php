@@ -63,19 +63,28 @@ class RolesController extends Controller
     public function update(Request $request, $id)
     {
         
-    	$validateData = $request->validate([
-            'claim' => 'max:50'
-        ]);
+
+       
+    	//$validateData = $request->validate([
+          //  'claim' => ''
+        //]);
 
 
         $role = Role::findOrFail($id);
 
-        $role->claims()->toggle($validateData);
+        $validateData[] = $request->input('claim');
 
+        foreach($validateData as $data){
 
+            $role->claims()->sync($data);
+
+        }
+        
         return redirect(route('editRoles', $id));
 
     }
+
+
 
     public function destroy($id)
     {
