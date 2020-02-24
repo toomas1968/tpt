@@ -1,0 +1,14 @@
+Roles
+	-	Table where Roles are defined. Example: Administrator or Manager
+
+
+Claims
+	-	CanView or CanEdit
+
+
+RoleClaims
+	-	example: Administrator can view administrator page
+
+
+UserRoles
+	-	example: User Toomas has Administrator
