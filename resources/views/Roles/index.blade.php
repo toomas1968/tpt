@@ -18,7 +18,9 @@
 
                     This is Roles page. You can create and edit Roles
 
-                    <a class="btn-success" href="{{ route('add_role') }}">Add Role</a>
+                    @can('create', App\User::class)
+                      <a class="btn-success" href="{{ route('add_role') }}">Add Role</a>
+                    @endcan
                 </div>
                 
                 <table class="table">
@@ -34,14 +36,18 @@
                     @foreach($roles as $role)
                         <tr>
                           <th scope="row">{{ $role->id }}</th>
-                          <td><a href="{{ route('editRoles', $role->id) }}">{{ $role->name }}</a></td>
+                          
+                          @can('edit', App\User::class)
+                            <td><a href="{{ route('editRoles', $role->id) }}">{{ $role->name }}</a></td>
+                          @else
+                            <td>{{ $role->name }}</td>
+                          @endcan
+
                           <td>{{ $role->description }}</td>
                           <td>{{ $role->created_at }}</td>
                           <td>
                             <form method="POST" action="{{ route('delete_role', $role->id) }}">
                               @csrf
-                              
-
                               <button class="btn-error" type="submit">Delete</button>
                             </form>
                           </td>

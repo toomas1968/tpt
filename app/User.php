@@ -5,10 +5,12 @@ namespace App;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class User extends Authenticatable
 {
     use Notifiable;
+    use SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
@@ -45,5 +47,30 @@ class User extends Authenticatable
     public function roles()
     {
         return $this->belongsToMany(Role::class, 'user_roles');
+    }
+
+
+    public function hasRole($role)
+    {
+        // Assuming your claim model has a 'name' field on it
+        if (is_string($role)) {
+            return $this->roles->contains('name', $role);
+        }
+        
+        // If you pass a claim id in, check by id
+        if (is_numeric($role)) {
+
+            return $this->roles->contains('id', $role);
+        }
+        
+        // If you pass a CLaim object in, compare each of your role's id to this one's
+        foreach ($this->role as $user_role) {
+            if ($user_role->id == $role->id) {
+                return true;
+            }
+        }
+        
+        // If nothing matched, return false
+        return false;
     }
 }

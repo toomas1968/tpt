@@ -3,6 +3,9 @@
 namespace App\Policies;
 
 use App\User;
+use Auth;
+use App\Claim;
+
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class RolePolicy
@@ -18,9 +21,27 @@ class RolePolicy
 
     public function view(User $user)
     {
-        return in_array($user->email, [
-            'toomas.unt1968@gmail.com',
-        ]);
+
+        $claimValue = Claim::where('value', 'roles_can_view')->first();
+        
+        return $claimValue->roles()->where('role_id', $user->roles->pluck('id'))->exists();
+
+    }
+
+
+    public function edit(User $user)
+    {
+        $claimValue = Claim::where('value', 'roles_can_edit')->first();
+
+        return $claimValue->roles()->where('role_id', $user->roles->pluck('id'))->exists();
+    }
+
+
+    public function create(User $user)
+    {
+        $claimValue = Claim::where('value', 'roles_can_create')->first();
+
+        return $claimValue->roles()->where('role_id', $user->roles->pluck('id'))->exists();
     }
 
 

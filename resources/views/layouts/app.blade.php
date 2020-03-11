@@ -50,14 +50,17 @@
                             @endif
                         @else
                         
-                        @can('view', App\Role::class)
+                        
+
+                        @can('view', App\User::class)
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('roles') }}">{{ __('Roles') }}</a>
                             </li>
                         @endcan
+                        
 
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('users') }}">{{ __('Users') }}</a>
+                            <a class="nav-link" href="{{ route('user') }}">{{ __('Users') }}</a>
                         </li>
 
                             <li class="nav-item dropdown">

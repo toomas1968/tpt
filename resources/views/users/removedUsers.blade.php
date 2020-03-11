@@ -2,23 +2,19 @@
 
 @section('content')
 <div class="container">
-    <div class="row justify-content-center">
+    <div class="row justify-content-center" style="margin-top: 50px;">
 
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">Users</div>
+                <div class="card-header">Deleted Users</div>
 
                 
                 <div class="card-body">
-                    @if (session('status'))
-                        <div class="alert alert-warning" role="alert">
-                            {{ session('status') }}
+                    @if (session('success'))
+                        <div class="alert alert-success" role="alert">
+                            {{ session('success') }}
                         </div>
                     @endif
-
-                    This is Users page. You can create and edit Users
-
-                    <a class="btn-success" href="{{ route('create_user') }}">Add User</a>
                 </div>
                 
                 <table class="table">
@@ -32,7 +28,7 @@
                     </tr>
                   </thead>
                   <tbody>
-                    @foreach($users as $user)
+                    @foreach($deletedUsers as $user)
                         <tr>
                           <th scope="row">{{ $user->id }}</th>
                           <td><a href="{{ route('user_edit', $user->id)}}">{{ $user->name }}</a></td>
@@ -42,10 +38,9 @@
                             @endforeach
                           <td>{{ $user->created_at }}</td>
                           <td>
-                            <form method="POST" action="{{ route('delete_user', $user->id)}}">
+                            <form method="POST" action="{{ route('restore_user', $user->id)}}">
                               @csrf
-                            
-                              <button class="btn-error" type="submit">Delete</button>
+                              <button class="btn-error" type="submit">Restore</button>
                             </form>
                           </td>
                         </tr>
@@ -54,7 +49,7 @@
                 </table>
             </div>
         </div>
-    </div>
 
+    </div>
 </div>
 @endsection
