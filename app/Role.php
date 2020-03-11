@@ -37,8 +37,10 @@ class Role extends Model
 
 
 
+
+
     public function hasClaim($claim)
-	 {
+	{
 	    // Assuming your claim model has a 'name' field on it
 	    if (is_string($claim)) {
 	        return $this->claims->contains('name', $claim);
@@ -59,6 +61,6 @@ class Role extends Model
 	    
 	    // If nothing matched, return false
 	    return false;
-	 }
+	}
 
 }
